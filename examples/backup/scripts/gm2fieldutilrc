@@ -1,8 +1,0 @@
-export GM2FIELDROOTDATA=/home/newg2/DataProduction/Nearline/ArtTFSDir
-export GM2FIELDROOTANA=/home/newg2/Gm2FieldOffline/gm2fieldrootana
-export GM2FIELDUTILHOME=$GM2FIELDROOTANA/gm2fieldUtil
-export GM2FIELDUTILLIB=$GM2FIELDUTILHOME
-export LD_LIBRARY_PATH=$GM2FIELDUTILLIB/lib:$LD_LIBRARY_PATH
-export GM2FIELDTEMPDIR=/home/newg2/DataProduction/Nearline/SlowControlData
-#comment the following line if you have your own gm2dataproducts managed. The current configuration subscribes to the MRB system in the newg2 account.  
-export MRB_SOURCE=/home/newg2/Gm2FieldNearline/srcs
