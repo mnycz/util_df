@@ -7,6 +7,7 @@
 
 #include "CSVManager.hh"
 #include "UtilDFGraph.hh"
+#include "UtilDFMath.hh"
 
 int Test(){
 
@@ -21,7 +22,11 @@ int Test(){
    std::vector<double> x,y;
    myCSV->GetColumn_byName<double>(xAxisLabel,x); 
    myCSV->GetColumn_byName<double>(yAxisLabel,y); 
-   
+  
+   double my = util_df::Math::GetMean<double>(y); 
+   double sy = util_df::Math::GetStandardDeviation<double>(y); 
+   std::cout << Form("y stats: mean = %.3lf, stdev = %.3lf",my,sy) << std::endl; 
+ 
    TGraph *g = util_df::Graph::GetTGraph(x,y); 
    util_df::Graph::SetGraphParameters(g,20,kBlue);
 
