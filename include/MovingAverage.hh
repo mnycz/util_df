@@ -1,5 +1,5 @@
-#ifndef GM2_FIELD_MOVING_AVERAGE
-#define GM2_FIELD_MOVING_AVERAGE
+#ifndef UTIL_DF_MOVING_AVERAGE_HH 
+#define UTIL_DF_MOVING_AVERAGE_HH
 
 // calculate a moving average on data
 #include <cstdlib>

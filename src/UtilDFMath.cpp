@@ -100,7 +100,7 @@ namespace util_df{
                mean = GetMean<double>(M,v);
                diff = mean-mean_prev;
                // sum over squared differences for nAVG>1 
-	       if(nAVG>1) sum_sq += TMath::Power(diff,2.); 
+	       if(nAVG>1) sum_sq += pow(diff,2.); 
                // reset the j index and mean_prev now that we computed an average 
 	       j = 0;
 	       mean_prev = mean; 
@@ -119,7 +119,7 @@ namespace util_df{
          // compute the allan deviation for M points per group 
          // in the data vector x of size N points.
          double allanVar = AllanVariance(x,M); 
-         double allanDev = TMath::Sqrt(allanVar); 
+         double allanDev = sqrt(allanVar); 
 	 return allanDev;
       }
    } // ::Math 

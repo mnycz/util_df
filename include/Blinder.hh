@@ -1,5 +1,5 @@
-#ifndef BLINDER_HH
-#define BLINDER_HH 
+#ifndef UTIL_DF_BLINDER_HH
+#define UTIL_DF_BLINDER_HH 
 
 #include <cstdlib>
 #include <iostream>

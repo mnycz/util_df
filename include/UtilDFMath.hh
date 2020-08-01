@@ -10,8 +10,6 @@
 #include <cmath>
 #include <algorithm> 
 
-#include "TMath.h"
-
 #include "UtilDFConstants.hh"
 
 namespace util_df{
