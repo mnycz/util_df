@@ -83,6 +83,8 @@ namespace util_df {
                }else{
 		  std::cout << "[CSVManager::SetElement]: ERROR!  Invalid indices! row = " 
                             << row << ", col = " << col << std::endl;
+                  std::cout << "[CSVManager::SetElement]: Max dimensions are NRow = " 
+                            << fNumRow << ", NCol = " << fNumCol << std::endl;
 		  return 1;
                }
 	       return 0;
