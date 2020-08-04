@@ -36,6 +36,55 @@ namespace util_df {
       return 0;
    }
    //______________________________________________________________________________
+   int CSVManager::Print(){
+      // print to screen
+      int NROW = fData.size();
+      int NCOL = fHeader.size();
+
+      char myStr[200];
+      if(fHeaderExists){ 
+	 sprintf(myStr,"%s",fHeader[0].c_str() );
+	 for(int i=1;i<NCOL;i++) sprintf(myStr,"%s,%s",myStr,fHeader[i].c_str() );
+	 std::cout << myStr << std::endl;
+      }
+
+      for(int i=0;i<NROW;i++){
+	 sprintf(myStr,"%s",fData[i][0].c_str()); 
+	 NCOL = fData[i].size();
+	 for(int j=1;j<NCOL;j++) sprintf(myStr,"%s,%s",myStr,fData[i][j].c_str() );
+	 std::cout << myStr << std::endl;
+      }
+      return 0;
+   }
+   //______________________________________________________________________________
+   int CSVManager::WriteFile(const char *outpath){
+      // write the data to a file
+      int NROW = fData.size(); 
+      int NCOL = fData[0].size();
+      char line[2048]; 
+      std::ofstream outfile;
+      outfile.open(outpath); 
+      if( outfile.fail() ){
+	 std::cout << "[CSVManager::WriteFile]: Cannot open the file: " << outpath << std::endl;
+	 return 1;
+      }else{
+	 if(fHeaderExists){ 
+	    // print header if necessary  
+	    sprintf(line,"%s",fHeader[0].c_str() );
+	    for(int i=1;i<NCOL;i++) sprintf(line,"%s,%s",line,fHeader[i].c_str() );
+	    outfile << line << std::endl;
+	 }
+	 // print data
+	 for(int i=0;i<NROW;i++){
+	    sprintf(line,"%s",fData[i][0].c_str()); 
+	    NCOL = fData[i].size();
+	    for(int j=1;j<NCOL;j++) sprintf(line,"%s,%s",line,fData[i][j].c_str() );
+	    outfile << line << std::endl;
+	 }
+      }
+      return 0;
+   }
+   //______________________________________________________________________________
    int CSVManager::ReadFile(const char *inpath,bool headerExists){
 
       // update variable 
@@ -246,26 +295,5 @@ namespace util_df {
 
       return 0;
    }
-   //______________________________________________________________________________
-   int CSVManager::Print(){
 
-      int NROW = fData.size();
-      int NCOL = fHeader.size();
-
-      char myStr[200];
-      if(fHeaderExists){ 
-	 sprintf(myStr,"%s",fHeader[0].c_str() );
-	 for(int i=1;i<NCOL;i++) sprintf(myStr,"%s,%s",myStr,fHeader[i].c_str() );
-	 std::cout << myStr << std::endl;
-      }
-
-      for(int i=0;i<NROW;i++){
-	 sprintf(myStr,"%s",fData[i][0].c_str()); 
-	 NCOL = fData[i].size();
-	 for(int j=1;j<NCOL;j++) sprintf(myStr,"%s,%s",myStr,fData[i][j].c_str() );
-	 std::cout << myStr << std::endl;
-      }
-
-      return 0;
-   }
 }

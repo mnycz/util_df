@@ -28,11 +28,13 @@ namespace util_df {
 	       if( std::is_arithmetic<T>::value ){
 		  if( std::is_integral<T>::value ){
 		     // it's an integer or boolean 
+		     rc = 0; 
 		  }else{
 		     // it's a double or float 
+		     rc = 1;
 		  }
 	       }else{
-		  rc = 1; // it's a string
+		  rc = 2; // it's a string
 	       }
 	       return rc;
 	    } 
@@ -53,9 +55,38 @@ namespace util_df {
 	 int ReadFile(const char *inpath,bool header=false); 
 	 int WriteFile(const char *outpath);
 
+         int InitTable(int NROW,int NCOL){
+	    fData.resize(NROW); 
+	    for(int i=0;i<NROW;i++) fData[i].resize(NCOL);
+	    fNumRow = NROW;
+	    fNumCol = NCOL;
+	    return 0; 
+	 }
+
 	 // setter methods 
 	 int SetHeader(std::string fullHeader);  
 	 int SetHeader(std::vector<std::string> header);  
+	 int SetElement_str(int row,int col,std::string x)  { fData[row][col] = x; return 0; }
+ 
+	 // templated setter methods (to discern between arithmetic types)
+         template <typename T>
+	    int SetElement(int row,int col,T x){
+	       char data[200]; 
+               int type = CheckType<T>(x);
+	       std::cout << "TYPE = " << type << ", value = " << x << std::endl; 
+               if(type==0) sprintf(data,"%d"  ,(int)x   );  
+               if(type==1) sprintf(data,"%.3E",(double)x);  
+	       std::cout << "TYPE = " << type << ", data = " << data << std::endl;
+	       std::string DATA = data;
+               if(row<fNumRow && col<fNumCol){
+		  fData[row][col] = DATA; 
+               }else{
+		  std::cout << "[CSVManager::SetElement]: ERROR!  Invalid indices! row = " 
+                            << row << ", col = " << col << std::endl;
+		  return 1;
+               }
+	       return 0;
+	    }
 
 	 // getter methods
 	 int GetNumRows()    const { return fNumRow; } 
@@ -63,9 +94,10 @@ namespace util_df {
 	 int GetColumnIndex_byName(std::string colName); 
 
 	 int GetHeader(std::vector<std::string> &header);  
-	 std::string GetElement_str(int rowIndex,int colIndex);  
 	 int GetColumn_byIndex_str(int colIndex,std::vector<std::string> &data); 
 	 int GetColumn_byName_str(std::string colName,std::vector<std::string> &data);
+
+	 std::string GetElement_str(int rowIndex,int colIndex);  
 
 	 // templated getter methods (to obtain arithmetic types)
 	 template <typename T>
