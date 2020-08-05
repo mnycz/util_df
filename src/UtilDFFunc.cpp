@@ -15,6 +15,16 @@ namespace util_df {
       return 0;
    }
    //______________________________________________________________________________
+   int MakeClass(const char *path,const char *className,const char *treeName){
+      // create a class using TTree::MakeClass
+      TFile *f = new TFile(path); 
+      TTree *myTree; 
+      f->GetObject(treeName,myTree);
+      myTree->MakeClass(className);
+      f->Close();
+      return 0; 
+   }
+   //______________________________________________________________________________
    std::string GetStringTimeStampFromUTC(unsigned long unix_time){
       time_t     utime = unix_time;
       struct tm  ts;
