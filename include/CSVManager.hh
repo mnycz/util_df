@@ -44,39 +44,26 @@ namespace util_df {
 	 ~CSVManager();
 
 	 int Print();
+	 int PrintHeader(); 
 	 int PrintColumns(std::string cols); 
-	 int PrintHeader(){ 
-	    std::cout << "[CSVManager::PrintHeader]: Header data: " << std::endl;
-	    const int N = fHeader.size(); 
-	    for(int i=0;i<N;i++) std::cout << fHeader[i] << std::endl;
-	    return 0;
-	 }
+
 	 int ClearData();
 	 int ReadFile(const char *inpath,bool header=false); 
 	 int WriteFile(const char *outpath);
-
-         int InitTable(int NROW,int NCOL){
-	    fData.resize(NROW); 
-	    for(int i=0;i<NROW;i++) fData[i].resize(NCOL);
-	    fNumRow = NROW;
-	    fNumCol = NCOL;
-	    return 0; 
-	 }
+         int InitTable(int NROW,int NCOL); 
 
 	 // setter methods 
 	 int SetHeader(std::string fullHeader);  
 	 int SetHeader(std::vector<std::string> header);  
-	 int SetElement_str(int row,int col,std::string x)  { fData[row][col] = x; return 0; }
+	 int SetElement_str(int row,int col,std::string x); 
  
-	 // templated setter methods (to discern between arithmetic types)
+	 // templated setter methods 
          template <typename T>
 	    int SetElement(int row,int col,T x){
 	       char data[200]; 
                int type = CheckType<T>(x);
-	       std::cout << "TYPE = " << type << ", value = " << x << std::endl; 
                if(type==0) sprintf(data,"%d"  ,(int)x   );  
                if(type==1) sprintf(data,"%.3E",(double)x);  
-	       std::cout << "TYPE = " << type << ", data = " << data << std::endl;
 	       std::string DATA = data;
                if(row<fNumRow && col<fNumCol){
 		  fData[row][col] = DATA; 

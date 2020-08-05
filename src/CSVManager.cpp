@@ -25,6 +25,27 @@ namespace util_df {
       return 0;
    }
    //______________________________________________________________________________
+   int CSVManager::InitTable(int NROW,int NCOL){
+      fData.resize(NROW);
+      for(int i=0;i<NROW;i++) fData[i].resize(NCOL);
+      fNumRow = NROW;
+      fNumCol = NCOL;
+      return 0;
+   }
+   //______________________________________________________________________________
+   int CSVManager::SetElement_str(int row,int col,std::string x){
+      if(row<fNumRow && col<fNumCol){
+	 fData[row][col] = x;
+      }else{
+	 std::cout << "[CSVManager::SetElement]: ERROR!  Invalid indices! row = "
+	           << row << ", col = " << col << std::endl;
+	 std::cout << "[CSVManager::SetElement]: Max dimensions are NRow = "
+	           << fNumRow << ", NCol = " << fNumCol << std::endl;
+	 return 1;
+      }
+      return 0; 
+   }
+   //______________________________________________________________________________
    int CSVManager::SplitString(const char delim,const std::string inStr,std::vector<std::string> &out){
       // split a string by a delimiter
       std::stringstream ss(inStr);
@@ -33,6 +54,13 @@ namespace util_df {
 	 std::getline(ss,substr,delim);
 	 out.push_back(substr);
       }
+      return 0;
+   }
+   //______________________________________________________________________________
+   int CSVManager::PrintHeader(){
+      std::cout << "[CSVManager::PrintHeader]: Header data: " << std::endl;
+      const int N = fHeader.size();
+      for(int i=0;i<N;i++) std::cout << fHeader[i] << std::endl;
       return 0;
    }
    //______________________________________________________________________________
