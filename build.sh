@@ -9,7 +9,8 @@ function cleanup {
 #_______________________________________________________________________________
 function configure { 
    echo "Configuring..."
-   cmake -DCMAKE_INSTALL_PREFIX=../install ../util_df 
+   cmake -DCMAKE_INSTALL_PREFIX=../install \
+   ../util_df 
    echo "--> Done!"
 }
 #_______________________________________________________________________________
