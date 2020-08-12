@@ -2,16 +2,12 @@
 namespace util_df {
    //______________________________________________________________________________
    ABA::ABA(){
-      Init();
+      fUseTimeWeight = false;
+      fVerbosity     = 0;
    }
    //______________________________________________________________________________
    ABA::~ABA(){
 
-   }
-   //______________________________________________________________________________
-   void ABA::Init(){
-      fUseTimeWeight = false;
-      fVerbosity     = 0;
    }
    //______________________________________________________________________________
    int ABA::GetDifference(std::vector<double> A_time,std::vector<double> A,std::vector<double> A_err,

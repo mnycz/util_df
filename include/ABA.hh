@@ -17,8 +17,6 @@ namespace util_df {
 	 int fVerbosity;
 	 bool fUseTimeWeight;
 
-	 void Init();
-
       public:
 	 ABA();
 	 ~ABA();
@@ -30,8 +28,8 @@ namespace util_df {
 	 bool GetTimeWeightStatus()  const { return fUseTimeWeight; }
 
 	 int GetDifference(std::vector<double> A_time   ,std::vector<double> A,std::vector<double> A_err,
-	       std::vector<double> B_time   ,std::vector<double> B,std::vector<double> B_err,
-	       std::vector<double> &diff_aba,std::vector<double> &diff_aba_err);
+	                   std::vector<double> B_time   ,std::vector<double> B,std::vector<double> B_err,
+	                   std::vector<double> &diff_aba,std::vector<double> &diff_aba_err);
 
    };
 
