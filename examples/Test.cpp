@@ -8,8 +8,17 @@
 #include "CSVManager.hh"
 #include "UtilDFGraph.hh"
 #include "UtilDFMath.hh"
+#include "UtilDFCrossSection.hh"
 
 int Test(){
+
+   // luminosity for a LD2 target (per nucleon)  
+   A   = 2;           // number of nucleons (= Z + N)  
+   rho = 0.161246;    // density in g/cm^3  
+   double I = 30E-6;  // 44 uA  
+   double x = 15.0;   // 15 cm thick 
+   double L = util_df::CrossSection::GetLuminosity(I,rho,x,A);
+   std::cout << Form("Target = LD2, I_beam = %.1E A, x = %.1lf cm, Lumi = %.3E cm^-2 s^-1",I,x,L) << std::endl;
 
    // read data from a csv file and make a plot 
    util_df::CSVManager *myCSV = new util_df::CSVManager(); 
