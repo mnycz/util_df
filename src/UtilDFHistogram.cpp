@@ -89,5 +89,21 @@ namespace util_df {
 	 }
 	 return sum;
       }
+      //______________________________________________________________________________
+      void SetLabels(TH1F *h,TString Title,TString xAxisTitle,TString yAxisTitle){
+	 h->SetTitle(Title); 
+	 h->GetXaxis()->SetTitle(xAxisTitle); 
+	 h->GetXaxis()->CenterTitle(); 
+	 h->GetYaxis()->SetTitle(yAxisTitle); 
+	 h->GetYaxis()->CenterTitle(); 
+      }
+      //______________________________________________________________________________
+      void SetLabels(TH2F *h,TString Title,TString xAxisTitle,TString yAxisTitle){
+	 h->SetTitle(Title); 
+	 h->GetXaxis()->SetTitle(xAxisTitle); 
+	 h->GetXaxis()->CenterTitle(); 
+	 h->GetYaxis()->SetTitle(yAxisTitle); 
+	 h->GetYaxis()->CenterTitle(); 
+      }
    } // ::Histogram
 } // ::util_df

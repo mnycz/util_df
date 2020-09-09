@@ -17,6 +17,8 @@ namespace util_df {
       double GetSum2D_rect(TH2F *h,double xmin,double xmax,double ymin,double ymax);
       double GetSum2D_circ(TH2F *h,double R,double XC=0,double YC=0);
       double GetIntegral2D(TH2F *h,double xmin,double xmax,double ymin,double ymax);
+      void SetLabels(TH1F *h,TString Title,TString xAxisTitle,TString yAxisTitle); 
+      void SetLabels(TH2F *h,TString Title,TString xAxisTitle,TString yAxisTitle); 
    } // ::Histogram 
 } // ::util_df
 
