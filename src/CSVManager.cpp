@@ -2,10 +2,11 @@
 //______________________________________________________________________________
 namespace util_df { 
    //______________________________________________________________________________
-   CSVManager::CSVManager(){
+   CSVManager::CSVManager(int v){
       fHeaderExists = false;
       fNumCol = 0; 
       fNumRow = 0; 
+      fVerbosity = v;
    }
    //______________________________________________________________________________
    CSVManager::~CSVManager(){
@@ -128,7 +129,7 @@ namespace util_df {
 	 std::cout << "[CSVManager::ReadFile]: Cannot open the file: " << inpath << std::endl;
 	 return 1;
       }else{
-	 std::cout << "[CSVManager::ReadFile]: Opened the file: " << inpath << std::endl;
+	 if(fVerbosity>0) std::cout << "[CSVManager::ReadFile]: Opened the file: " << inpath << std::endl;
 	 while( !infile.eof() ){
 	    std::getline(infile,aLine);
 	    line.push_back(aLine); 
@@ -167,10 +168,10 @@ namespace util_df {
 	 std::cout << "[CSVManager::ReadFile]: ERROR!  Number of headers doesn't match number of columns!" << std::endl;
       }
 
-      char msg[200]; 
+      char msg[200];
       if(fHeaderExists)  sprintf(msg,"[CSVManager::ReadFile]: Found header, %d rows, %d columns"   ,NROW,NCOL);
       if(!fHeaderExists) sprintf(msg,"[CSVManager::ReadFile]: Found NO header, %d rows, %d columns",NROW,NCOL);
-      std::cout << msg << std::endl;
+      if(fVerbosity>0) std::cout << msg << std::endl;
 
       return 0; 
    }

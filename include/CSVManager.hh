@@ -15,6 +15,7 @@ namespace util_df {
    class CSVManager { 
 
       private:
+         int fVerbosity; 
 	 int fNumRow,fNumCol;
 	 bool fHeaderExists;
 	 std::vector<std::string> fHeader;
@@ -40,7 +41,7 @@ namespace util_df {
 	    } 
 
       public:
-	 CSVManager();
+	 CSVManager(int v=0);
 	 ~CSVManager();
 
 	 int Print();
@@ -52,7 +53,8 @@ namespace util_df {
 	 int WriteFile(const char *outpath);
          int InitTable(int NROW,int NCOL); 
 
-	 // setter methods 
+	 // setter methods
+         void SetVerbosity(int v) {fVerbosity = v;}  
 	 int SetHeader(std::string fullHeader);  
 	 int SetHeader(std::vector<std::string> header);  
 	 int SetElement_str(int row,int col,std::string x); 
@@ -78,8 +80,9 @@ namespace util_df {
 	    }
 
 	 // getter methods
-	 int GetNumRows()    const { return fNumRow; } 
-	 int GetNumColumns() const { return fNumCol; } 
+	 int GetNumRows()    const { return fNumRow;    } 
+	 int GetNumColumns() const { return fNumCol;    } 
+         int GetVerbosity()  const { return fVerbosity; } 
 	 int GetColumnIndex_byName(std::string colName); 
 
 	 int GetHeader(std::vector<std::string> &header);  
