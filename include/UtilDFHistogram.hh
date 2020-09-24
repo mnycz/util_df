@@ -19,8 +19,8 @@ namespace util_df {
       double GetIntegral2D(TH2F *h,double xmin,double xmax,double ymin,double ymax);
       void SetLabels(TH1F *h,TString Title,TString xAxisTitle,TString yAxisTitle); 
       void SetLabels(TH2F *h,TString Title,TString xAxisTitle,TString yAxisTitle); 
-      void SetParameters(TH1F *h,int color,int mStyle,double mSize=0.5); 
-      void SetParameters(TH2F *h,int color,int mStyle,double mSize=0.5); 
+      void SetParameters(TH1F *h,int color,int mStyle,double mSize=0.5,int lWidth=1); 
+      void SetParameters(TH2F *h,int color,int mStyle,double mSize=0.5,int lWidth=1); 
    } // ::Histogram 
 } // ::util_df
 
