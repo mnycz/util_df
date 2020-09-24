@@ -25,7 +25,7 @@ namespace util_df {
 
 	 template <typename T>
 	    int CheckType(T data){
-	       int rc=0; 
+	       int rc=0;
 	       if( std::is_arithmetic<T>::value ){
 		  if( std::is_integral<T>::value ){
 		     // it's an integer or boolean 

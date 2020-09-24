@@ -105,5 +105,19 @@ namespace util_df {
 	 h->GetYaxis()->SetTitle(yAxisTitle); 
 	 h->GetYaxis()->CenterTitle(); 
       }
+      //______________________________________________________________________________
+      void SetParameters(TH1F *h,int color,int mStyle,double mSize){
+	 h->SetMarkerColor(color); 
+	 h->SetLineColor(color);
+         h->SetMarkerStyle(mStyle);  
+         h->SetMarkerSize(mSize);  
+      }
+      //______________________________________________________________________________
+      void SetParameters(TH2F *h,int color,int mStyle,double mSize){
+	 h->SetMarkerColor(color); 
+	 h->SetLineColor(color);
+         h->SetMarkerStyle(mStyle);  
+         h->SetMarkerSize(mSize);  
+      }
    } // ::Histogram
 } // ::util_df
