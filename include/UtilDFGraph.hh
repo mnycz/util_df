@@ -43,9 +43,9 @@ namespace util_df {
 
       TGraph *GetTGraphDifference(const int NPTS,TGraph *g1,TGraph *g2); 
 
-      void SetParameters(TGraph *g,int Marker,int Color,int width = 1);
-      void SetParameters(TGraphErrors *g,int Marker,int Color,int width = 1);
-      void SetParameters(TGraphAsymmErrors *g,int Marker,int Color,int width = 1);
+      void SetParameters(TGraph *g,int marker,int color,double mSize=1.0,int width=1);
+      void SetParameters(TGraphErrors *g,int marker,int color,double mSize=1.0,int width=1);
+      void SetParameters(TGraphAsymmErrors *g,int marker,int color,double mSize=1.0,int width=1);
       void SetLabels(TGraph *g,TString Title,TString xAxisTitle,TString yAxisTitle);
       void SetLabels(TGraphErrors *g,TString Title,TString xAxisTitle,TString yAxisTitle);
       void SetLabels(TGraphAsymmErrors *g,TString Title,TString xAxisTitle,TString yAxisTitle);

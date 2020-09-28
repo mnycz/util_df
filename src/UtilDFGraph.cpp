@@ -85,24 +85,27 @@ namespace util_df{
 	 return g;
       }
       //______________________________________________________________________________
-      void SetParameters(TGraph *g,int Marker,int Color,int width){
-	 g->SetMarkerStyle(Marker);
-	 g->SetMarkerColor(Color);
-	 g->SetLineColor(Color);
+      void SetParameters(TGraph *g,int marker,int color,double mSize,int width){
+	 g->SetMarkerStyle(marker);
+	 g->SetMarkerColor(color);
+         g->SetMarkerSize(mSize);
+	 g->SetLineColor(color);
 	 g->SetLineWidth(width);
       }
       //______________________________________________________________________________
-      void SetParameters(TGraphErrors *g,int Marker,int Color,int width){
-	 g->SetMarkerStyle(Marker);
-	 g->SetMarkerColor(Color);
-	 g->SetLineColor(Color);
+      void SetParameters(TGraphErrors *g,int marker,int color,double mSize,int width){
+	 g->SetMarkerStyle(marker);
+	 g->SetMarkerColor(color);
+         g->SetMarkerSize(mSize);
+	 g->SetLineColor(color);
 	 g->SetLineWidth(width);
       }
       //______________________________________________________________________________
-      void SetParameters(TGraphAsymmErrors *g,int Marker,int Color,int width){
-	 g->SetMarkerStyle(Marker);
-	 g->SetMarkerColor(Color);
-	 g->SetLineColor(Color);
+      void SetParameters(TGraphAsymmErrors *g,int marker,int color,double mSize,int width){
+	 g->SetMarkerStyle(marker);
+	 g->SetMarkerColor(color);
+         g->SetMarkerSize(mSize);
+	 g->SetLineColor(color);
 	 g->SetLineWidth(width);
       }
       //______________________________________________________________________________
