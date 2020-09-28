@@ -9,7 +9,14 @@ There are also classes dedicated to CSV file handling and miscellaneous algorith
 In order to utilize the library, you must have the following installed: 
 
 - ROOT (version 6 or later)  
-- CMake (version 3.9 or later) 
+- CMake (version 3.9 or later)
+
+## Branches 
+
+There are two main branches for this library.  Below is a brief description of the functionality of each: 
+
+- **master**: The `master` branch is the production branch; that is, the recommended branch for use in your applications 
+- **dev**: The `dev` branch is reserved for testing out new features under development, and is recommended for experts only.    
 
 ## Building the Library 
 

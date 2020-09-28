@@ -106,7 +106,7 @@ namespace util_df {
 	 h->GetYaxis()->CenterTitle(); 
       }
       //______________________________________________________________________________
-      void SetParameters(TH1F *h,int color,int mStyle,double mSize,int lWidth){
+      void SetParameters(TH1F *h,int mStyle,int color,double mSize,int lWidth){
 	 h->SetMarkerColor(color); 
 	 h->SetLineColor(color);
 	 h->SetLineWidth(lWidth); 
@@ -114,7 +114,7 @@ namespace util_df {
          h->SetMarkerSize(mSize);  
       }
       //______________________________________________________________________________
-      void SetParameters(TH2F *h,int color,int mStyle,double mSize,int lWidth){
+      void SetParameters(TH2F *h,int mStyle,int color,double mSize,int lWidth){
 	 h->SetMarkerColor(color); 
 	 h->SetLineColor(color);
 	 h->SetLineWidth(lWidth); 

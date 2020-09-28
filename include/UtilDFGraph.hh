@@ -43,17 +43,17 @@ namespace util_df {
 
       TGraph *GetTGraphDifference(const int NPTS,TGraph *g1,TGraph *g2); 
 
-      void SetGraphParameters(TGraph *g,int Marker,int Color,int width = 1);
-      void SetGraphParameters(TGraphErrors *g,int Marker,int Color,int width = 1);
-      void SetGraphParameters(TGraphAsymmErrors *g,int Marker,int Color,int width = 1);
-      void SetGraphLabels(TGraph *g,TString Title,TString xAxisTitle,TString yAxisTitle);
-      void SetGraphLabels(TGraphErrors *g,TString Title,TString xAxisTitle,TString yAxisTitle);
-      void SetGraphLabels(TGraphAsymmErrors *g,TString Title,TString xAxisTitle,TString yAxisTitle);
-      void SetGraphLabels(TMultiGraph *g,TString Title,TString xAxisTitle,TString yAxisTitle);
-      void SetGraphLabelSizes(TGraph *g,double xSize,double ySize,double offset=0.5);
-      void SetGraphLabelSizes(TGraphErrors *g,double xSize,double ySize,double offset=0.5);
-      void SetGraphLabelSizes(TGraphAsymmErrors *g,double xSize,double ySize,double offset=0.5);
-      void SetGraphLabelSizes(TMultiGraph *g,double xSize,double ySize,double offset=0.5);
+      void SetParameters(TGraph *g,int Marker,int Color,int width = 1);
+      void SetParameters(TGraphErrors *g,int Marker,int Color,int width = 1);
+      void SetParameters(TGraphAsymmErrors *g,int Marker,int Color,int width = 1);
+      void SetLabels(TGraph *g,TString Title,TString xAxisTitle,TString yAxisTitle);
+      void SetLabels(TGraphErrors *g,TString Title,TString xAxisTitle,TString yAxisTitle);
+      void SetLabels(TGraphAsymmErrors *g,TString Title,TString xAxisTitle,TString yAxisTitle);
+      void SetLabels(TMultiGraph *g,TString Title,TString xAxisTitle,TString yAxisTitle);
+      void SetLabelSizes(TGraph *g,double xSize,double ySize,double offset=0.5);
+      void SetLabelSizes(TGraphErrors *g,double xSize,double ySize,double offset=0.5);
+      void SetLabelSizes(TGraphAsymmErrors *g,double xSize,double ySize,double offset=0.5);
+      void SetLabelSizes(TMultiGraph *g,double xSize,double ySize,double offset=0.5);
       void UseTimeDisplay(TGraph *g);
       void UseTimeDisplay(TGraphErrors *g);
       void UseTimeDisplay(TGraphAsymmErrors *g);
