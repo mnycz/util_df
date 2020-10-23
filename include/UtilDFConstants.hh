@@ -19,7 +19,9 @@ namespace util_df {
       enum statsType {
 	 kBesselsCorrectionDisabled = 0,
 	 kBesselsCorrectionEnabled  = 1 
-      }; 
+      };
+
+      const static double deg = 0.017453293; // 1 deg = pi/180 radians  
 
    } //::constants 
 
