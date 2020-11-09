@@ -1,6 +1,13 @@
 #include "UtilDFFunc.hh"
 //______________________________________________________________________________
 namespace util_df {
+   int SplitString_whiteSpace(const std::string myStr,std::vector<std::string> &out){
+      std::istringstream buffer(myStr);
+      std::copy(std::istream_iterator<std::string>(buffer), 
+	    std::istream_iterator<std::string>(),
+	    std::back_inserter(out));
+      return 0;
+   }
    //______________________________________________________________________________
    int SplitString(const char delim,const std::string myStr,std::vector<std::string> &out){
       // split a string by a delimiter
