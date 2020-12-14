@@ -173,14 +173,20 @@ namespace util_df {
 	 col.clear(); 
       }
 
-      // // remove hashtag if necessary
-      // std::string firstEntry="";  
-      // if(fDelimiter.compare("tsv")==0){
-      //    if( fHeader[0].compare("#")==0 ) fHeader.erase( fHeader.begin() );
-      // }else{
-      //    firstEntry = fHeader[0]; 
-      //    found = firstEntry.find("#"); 
-      // }
+      // remove hashtag if necessary
+      int NVS=0;
+      std::string firstEntry=""; 
+      std::vector<std::string> vStr; 
+      if(fDelimiter.compare("tsv")==0){
+	 // first entry is the #, so just delete it 
+         if(fHeader[0].compare("#")==0) fHeader.erase( fHeader.begin() );
+      }else if(fDelimiter.compare("csv")==0){
+         firstEntry = fHeader[0];
+         SplitString('#',firstEntry,vStr);
+	 // replace first entry with characters aside from leading # (if found) 
+	 NVS = vStr.size(); 
+         if(NVS>1) fHeader[0] = vStr[1];   
+      }
 
       NROW    = fData.size();
       fNumCol = fHeader.size(); 
