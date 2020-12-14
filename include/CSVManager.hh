@@ -59,7 +59,7 @@ namespace util_df {
          void SetVerbosity(int v) {fVerbosity = v;}  
 	 int SetHeader(std::string fullHeader);  
 	 int SetHeader(std::vector<std::string> header);  
-	 int SetElement_str(int row,int col,std::string x); 
+	 int SetElement_str(int row,int col,std::string x);
  
 	 // templated setter methods 
          template <typename T>
@@ -80,6 +80,13 @@ namespace util_df {
                }
 	       return 0;
 	    }
+
+	 template <typename T> 
+	    int SetColumn(int col,std::vector<T> x){
+               int N = x.size();
+	       for(int i=0;i<N;i++) SetElement<T>(i,col,x[i]);
+	       return 0;
+	    } 
 
 	 // getter methods
 	 int GetNumRows()    const { return fNumRow;    } 
