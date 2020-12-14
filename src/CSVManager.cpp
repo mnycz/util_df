@@ -68,6 +68,99 @@ namespace util_df {
       return 0;
    }
    //______________________________________________________________________________
+   std::string CSVManager::GetElement_str(int rowIndex,int colIndex){
+      int NROW = fData.size();
+      int NCOL = fData[0].size();
+      char msg[200]; 
+      std::string data="NONE";
+      if(NROW>0 && NCOL>0){
+	 data = fData[rowIndex][colIndex];
+      }else{
+	 sprintf(msg,"[CSVManager::GetElement]: NO data for row %d, col %d",rowIndex,colIndex); 
+	 std::cout << msg << std::endl;
+      }
+      return data;
+   }
+   //______________________________________________________________________________
+   int CSVManager::GetColumn_byIndex_str(int colIndex,std::vector<std::string> &data){
+      // find the data by col index 
+      int NROW = fData.size();
+      std::string elem;
+      for(int i=0;i<NROW;i++){
+	 elem = GetElement_str(i,colIndex);
+	 data.push_back(elem);
+      }
+      return 0;
+   }
+   //______________________________________________________________________________
+   int CSVManager::GetColumn_byName_str(std::string colName,std::vector<std::string> &data){
+      // find the column index by name 
+      int NCOL=0,NROW=0,k=-1;
+      if(fHeaderExists){
+	 NCOL = fHeader.size();
+	 for(int i=0;i<NCOL;i++) if(fHeader[i].compare(colName)==0) k = i;
+	 if(k>=0){
+	    GetColumn_byIndex_str(k,data);
+	 }else{
+	    std::cout << "[CSVManager::GetColumn_byName]: Cannot find the key '" 
+	       << colName << "' in header!" << std::endl;
+	    return 1;
+	 }
+      }else{
+	 std::cout << "[CSVManager::GetColumn_byName]: No header to search!";
+	 std::cout << "  Try CSVManager::GetColumn_byName" << std::endl;
+	 return 1;
+      }
+      return 0;
+   }
+   //______________________________________________________________________________
+   int CSVManager::SetHeader(std::string fullHeader){
+      // set a new header line
+      // the input is a single string with commas separating entries
+      std::vector<std::string> header;
+      int rc = SplitString(',',fullHeader,header); 
+      // clear existing header
+      // don't check for existing column sizes in case the user sets this first  
+      fHeader.clear();
+      int N = header.size();
+      for(int i=0;i<N;i++) fHeader.push_back(header[i]);
+      fNumCol = fHeader.size();  
+      fHeaderExists = true;
+      return 0;
+   }
+   //______________________________________________________________________________
+   int CSVManager::SetHeader(std::vector<std::string> header){
+      // set a new header line
+      // don't check for existing column sizes in case the user sets this first  
+      fHeader.clear();
+      int N = header.size();
+      for(int i=0;i<N;i++) fHeader.push_back(header[i]); 
+      fNumCol = fHeader.size();  
+      fHeaderExists = true;
+      return 0;
+   }
+   //______________________________________________________________________________
+   int CSVManager::GetHeader(std::vector<std::string> &header){
+      int N=0;
+      if(fHeaderExists){
+	 N = fHeader.size();
+	 for(int i=0;i<N;i++) header.push_back(fHeader[i]);
+      }else{
+	 std::cout << "[CSVManager::GetHeader]: No header!" <<  std::endl;
+	 return 1;
+      }
+      return 0;
+   }
+   //______________________________________________________________________________
+   int CSVManager::GetColumnIndex_byName(std::string colName){
+      // find the inded of a given column
+      int k=-1;
+      int NH = fHeader.size(); 
+      for(int i=0;i<NH;i++) if( fHeader[i].compare(colName)==0 ) k = i;
+      if(k<0) std::cout << "[CSVManager::GetColumnIndex_byName]: No column named '" << colName << "'" << std::endl;
+      return k;
+   }
+   //______________________________________________________________________________
    int CSVManager::PrintHeader(){
       std::cout << "[CSVManager::PrintHeader]: Header data: " << std::endl;
       const int N = fHeader.size();
@@ -181,7 +274,6 @@ namespace util_df {
    }
    //______________________________________________________________________________
    int CSVManager::ReadFile(const char *inpath,bool headerExists){
-
       // update variable 
       fHeaderExists = headerExists;
 
@@ -260,99 +352,4 @@ namespace util_df {
 
       return 0; 
    }
-   //______________________________________________________________________________
-   std::string CSVManager::GetElement_str(int rowIndex,int colIndex){
-      int NROW = fData.size();
-      int NCOL = fData[0].size();
-      char msg[200]; 
-      std::string data="NONE";
-      if(NROW>0 && NCOL>0){
-	 data = fData[rowIndex][colIndex];
-      }else{
-	 sprintf(msg,"[CSVManager::GetElement]: NO data for row %d, col %d",rowIndex,colIndex); 
-	 std::cout << msg << std::endl;
-      }
-      return data;
-   }
-   //______________________________________________________________________________
-   int CSVManager::GetColumn_byIndex_str(int colIndex,std::vector<std::string> &data){
-      // find the data by col index 
-      int NROW = fData.size();
-      std::string elem;
-      for(int i=0;i<NROW;i++){
-	 elem = GetElement_str(i,colIndex);
-	 data.push_back(elem);
-      }
-      return 0;
-   }
-   //______________________________________________________________________________
-   int CSVManager::GetColumn_byName_str(std::string colName,std::vector<std::string> &data){
-      // find the column index by name 
-      int NCOL=0,NROW=0,k=-1;
-      if(fHeaderExists){
-	 NCOL = fHeader.size();
-	 for(int i=0;i<NCOL;i++) if(fHeader[i].compare(colName)==0) k = i;
-	 if(k>=0){
-	    GetColumn_byIndex_str(k,data);
-	 }else{
-	    std::cout << "[CSVManager::GetColumn_byName]: Cannot find the key '" 
-	       << colName << "' in header!" << std::endl;
-	    return 1;
-	 }
-      }else{
-	 std::cout << "[CSVManager::GetColumn_byName]: No header to search!";
-	 std::cout << "  Try CSVManager::GetColumn_byName" << std::endl;
-	 return 1;
-      }
-      return 0;
-   }
-   //______________________________________________________________________________
-   int CSVManager::SetHeader(std::string fullHeader){
-      // set a new header line
-      // the input is a single string with commas separating entries
-      std::vector<std::string> header;
-      int rc = SplitString(',',fullHeader,header); 
-      // clear existing header
-      // don't check for existing column sizes in case the user sets this first  
-      fHeader.clear();
-      int N = header.size();
-      for(int i=0;i<N;i++) fHeader.push_back(header[i]);
-      fNumCol = fHeader.size();  
-      fHeaderExists = true;
-      return 0;
-   }
-   //______________________________________________________________________________
-   int CSVManager::SetHeader(std::vector<std::string> header){
-      // set a new header line
-      // don't check for existing column sizes in case the user sets this first  
-      fHeader.clear();
-      int N = header.size();
-      for(int i=0;i<N;i++) fHeader.push_back(header[i]); 
-      fNumCol = fHeader.size();  
-      fHeaderExists = true;
-      return 0;
-   }
-   //______________________________________________________________________________
-   int CSVManager::GetHeader(std::vector<std::string> &header){
-      int N=0;
-      if(fHeaderExists){
-	 N = fHeader.size();
-	 for(int i=0;i<N;i++) header.push_back(fHeader[i]);
-      }else{
-	 std::cout << "[CSVManager::GetHeader]: No header!" <<  std::endl;
-	 return 1;
-      }
-      return 0;
-   }
-   //______________________________________________________________________________
-   int CSVManager::GetColumnIndex_byName(std::string colName){
-      // find the inded of a given column
-      int k=-1;
-      int NH = fHeader.size(); 
-      for(int i=0;i<NH;i++) if( fHeader[i].compare(colName)==0 ) k = i;
-      if(k<0) std::cout << "[CSVManager::GetColumnIndex_byName]: No column named '" << colName << "'" << std::endl;
-      return k;
-   }
-
-
-}
+} // ::util_df
