@@ -96,6 +96,62 @@ namespace util_df {
       return 0;
    }
    //______________________________________________________________________________
+   int CSVManager::PrintColumns(std::string cols){
+
+      std::vector<std::string> colName;
+      int rc  = SplitString(',',cols,colName);
+      int NCN = colName.size();
+
+      std::vector<int> colIndex; 
+      int NH = fHeader.size(); 
+      for(int i=0;i<NCN;i++){
+	 for(int j=0;j<NH;j++){
+	    if( colName[i].compare(fHeader[j])==0 ){
+	       // std::cout << Form("[CSVManager::PrintColumns]: Found column '%s', index = %d",colName[i].c_str(),j) << std::endl;
+	       colIndex.push_back(j);
+	    }
+	 }
+      }
+
+      int NC = colIndex.size(); 
+      if(NCN!=NC){
+	 std::cout << "[CSVManager::PrintColumns]: Did not find all columns!  Printing only those found" << std::endl;
+      }
+
+      std::cout << "[CSVManager::PrintColumns]: Column data: " << std::endl;
+      for(int i=0;i<NC-1;i++) std::cout << colName[i] << ","; 
+      std::cout << colName[NC-1] << std::endl; 
+
+      int k=0;
+      std::string sx;  
+      char msg[200];
+      sprintf(msg,"");
+
+      int NROW = fData.size(); 
+      for(int i=0;i<NROW;i++){   
+	 // build the row
+	 for(int j=0;j<NC-1;j++){ 
+	    k  = colIndex[j]; 
+	    // std::cout << "NOW GETTING COLUMN " << colName[j] << ", index = " << k << std::endl;
+	    sx = GetElement_str(i,k);
+	    if(j==0){
+	       sprintf(msg,"%s",sx.c_str()); 
+	    }else{ 
+	       sprintf(msg,"%s     %s",msg,sx.c_str()); 
+	    } 
+	 }
+	 k  = colIndex[NC-1]; 
+	 sx = GetElement_str(i,k);
+	 sprintf(msg,"%s     %s",msg,sx.c_str());       
+	 // print to screen 
+	 std::cout << msg << std::endl;  
+	 // clear
+	 sprintf(msg,"");
+      } 
+
+      return 0;
+   }
+   //______________________________________________________________________________
    int CSVManager::WriteFile(const char *outpath){
       // write the data to a file
       int NROW = fData.size(); 
@@ -297,61 +353,6 @@ namespace util_df {
       if(k<0) std::cout << "[CSVManager::GetColumnIndex_byName]: No column named '" << colName << "'" << std::endl;
       return k;
    }
-   //______________________________________________________________________________
-   int CSVManager::PrintColumns(std::string cols){
 
-      std::vector<std::string> colName;
-      int rc  = SplitString(',',cols,colName);
-      int NCN = colName.size();
-
-      std::vector<int> colIndex; 
-      int NH = fHeader.size(); 
-      for(int i=0;i<NCN;i++){
-	 for(int j=0;j<NH;j++){
-	    if( colName[i].compare(fHeader[j])==0 ){
-	       // std::cout << Form("[CSVManager::PrintColumns]: Found column '%s', index = %d",colName[i].c_str(),j) << std::endl;
-	       colIndex.push_back(j);
-	    }
-	 }
-      }
-
-      int NC = colIndex.size(); 
-      if(NCN!=NC){
-	 std::cout << "[CSVManager::PrintColumns]: Did not find all columns!  Printing only those found" << std::endl;
-      }
-
-      std::cout << "[CSVManager::PrintColumns]: Column data: " << std::endl;
-      for(int i=0;i<NC-1;i++) std::cout << colName[i] << ","; 
-      std::cout << colName[NC-1] << std::endl; 
-
-      int k=0;
-      std::string sx;  
-      char msg[200];
-      sprintf(msg,"");
-
-      int NROW = fData.size(); 
-      for(int i=0;i<NROW;i++){   
-	 // build the row
-	 for(int j=0;j<NC-1;j++){ 
-	    k  = colIndex[j]; 
-	    // std::cout << "NOW GETTING COLUMN " << colName[j] << ", index = " << k << std::endl;
-	    sx = GetElement_str(i,k);
-	    if(j==0){
-	       sprintf(msg,"%s",sx.c_str()); 
-	    }else{ 
-	       sprintf(msg,"%s     %s",msg,sx.c_str()); 
-	    } 
-	 }
-	 k  = colIndex[NC-1]; 
-	 sx = GetElement_str(i,k);
-	 sprintf(msg,"%s     %s",msg,sx.c_str());       
-	 // print to screen 
-	 std::cout << msg << std::endl;  
-	 // clear
-	 sprintf(msg,"");
-      } 
-
-      return 0;
-   }
 
 }
