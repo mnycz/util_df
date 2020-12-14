@@ -60,6 +60,11 @@ namespace util_df {
 	 int SetHeader(std::string fullHeader);  
 	 int SetHeader(std::vector<std::string> header);  
 	 int SetElement_str(int row,int col,std::string x);
+         int SetColumn_str(int col,std::vector<std::string> x){
+	    const int N = x.size();
+	    for(int i=0;i<N;i++) SetElement_str(i,col,x[i]);
+	    return 0; 
+         } 
  
 	 // templated setter methods 
          template <typename T>
@@ -83,7 +88,7 @@ namespace util_df {
 
 	 template <typename T> 
 	    int SetColumn(int col,std::vector<T> x){
-               int N = x.size();
+               const int N = x.size();
 	       for(int i=0;i<N;i++) SetElement<T>(i,col,x[i]);
 	       return 0;
 	    } 
