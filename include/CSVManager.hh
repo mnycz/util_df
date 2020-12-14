@@ -18,10 +18,12 @@ namespace util_df {
          int fVerbosity; 
 	 int fNumRow,fNumCol;
 	 bool fHeaderExists;
+	 std::string fDelimiter; 
 	 std::vector<std::string> fHeader;
 	 std::vector< std::vector<std::string> > fData;
 
 	 int SplitString(const char delim,const std::string inStr,std::vector<std::string> &out);
+	 int SplitString_whiteSpace(const std::string myStr,std::vector<std::string> &out); 
 
 	 template <typename T>
 	    int CheckType(T data){
@@ -41,7 +43,7 @@ namespace util_df {
 	    } 
 
       public:
-	 CSVManager(int v=0);
+	 CSVManager(int v=0,const char *delim="csv");
 	 ~CSVManager();
 
 	 int Print();

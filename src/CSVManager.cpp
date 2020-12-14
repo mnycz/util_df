@@ -2,11 +2,12 @@
 //______________________________________________________________________________
 namespace util_df { 
    //______________________________________________________________________________
-   CSVManager::CSVManager(int v){
+   CSVManager::CSVManager(int v,const char *delim){
       fHeaderExists = false;
-      fNumCol = 0; 
-      fNumRow = 0; 
-      fVerbosity = v;
+      fNumCol       = 0; 
+      fNumRow       = 0; 
+      fVerbosity    = v;
+      fDelimiter    = delim;
    }
    //______________________________________________________________________________
    CSVManager::~CSVManager(){
@@ -55,6 +56,15 @@ namespace util_df {
 	 std::getline(ss,substr,delim);
 	 out.push_back(substr);
       }
+      return 0;
+   }
+   //______________________________________________________________________________
+   int CSVManager::SplitString_whiteSpace(const std::string myStr,std::vector<std::string> &out){
+      // split string on white space 
+      std::istringstream buffer(myStr);
+      std::copy(std::istream_iterator<std::string>(buffer),
+            std::istream_iterator<std::string>(),
+            std::back_inserter(out));
       return 0;
    }
    //______________________________________________________________________________
@@ -145,7 +155,11 @@ namespace util_df {
       int rc=0,k=0,NCOL=0; 
       for(int i=0;i<NROW;i++){
 	 // split the line into a vector.  This is a single row 
-	 rc   = SplitString(',',line[i],col);
+         if(fDelimiter.compare("csv")==0){ 
+	    rc = SplitString(',',line[i],col);
+         }else if(fDelimiter.compare("tsv")==0){
+	    rc = SplitString_whiteSpace(line[i],col);
+	 }
 	 // get number of columns 
 	 NCOL = col.size();
 	 if(i==0 && fHeaderExists){
@@ -158,6 +172,15 @@ namespace util_df {
 	 // clean up
 	 col.clear(); 
       }
+
+      // // remove hashtag if necessary
+      // std::string firstEntry="";  
+      // if(fDelimiter.compare("tsv")==0){
+      //    if( fHeader[0].compare("#")==0 ) fHeader.erase( fHeader.begin() );
+      // }else{
+      //    firstEntry = fHeader[0]; 
+      //    found = firstEntry.find("#"); 
+      // }
 
       NROW    = fData.size();
       fNumCol = fHeader.size(); 
