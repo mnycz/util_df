@@ -290,6 +290,7 @@ namespace util_df {
 	 if(fVerbosity>0) std::cout << "[CSVManager::ReadFile]: Opened the file: " << inpath << std::endl;
 	 while( !infile.eof() ){
 	    std::getline(infile,aLine);
+	    if(fVerbosity>1) std::cout << aLine << std::endl;
 	    line.push_back(aLine); 
 	 }
 	 line.pop_back();
@@ -325,10 +326,10 @@ namespace util_df {
       int NVS=0;
       std::string firstEntry=""; 
       std::vector<std::string> vStr; 
-      if(fDelimiter.compare("tsv")==0){
+      if(fDelimiter.compare("tsv")==0 && fHeaderExists){
 	 // first entry is the #, so just delete it 
          if(fHeader[0].compare("#")==0) fHeader.erase( fHeader.begin() );
-      }else if(fDelimiter.compare("csv")==0){
+      }else if(fDelimiter.compare("csv")==0 && fHeaderExists){
          firstEntry = fHeader[0];
          SplitString('#',firstEntry,vStr);
 	 // replace first entry with characters aside from leading # (if found) 
