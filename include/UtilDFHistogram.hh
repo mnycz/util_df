@@ -13,6 +13,7 @@
 namespace util_df { 
    namespace Histogram {
       double GetSum(TH1F *h,double min,double max);
+      double GetIntegral(TH1F *h);
       double GetIntegral(TH1F *h,double min,double max);
       double GetSum2D_rect(TH2F *h,double xmin,double xmax,double ymin,double ymax);
       double GetSum2D_circ(TH2F *h,double R,double XC=0,double YC=0);
