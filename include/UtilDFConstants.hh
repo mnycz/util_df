@@ -21,6 +21,14 @@ namespace util_df {
 	 kBesselsCorrectionEnabled  = 1 
       };
 
+      enum materialName{
+	 kHelium,
+	 kAluminum,
+	 kCopper,
+	 kTungsten,
+	 kGlass
+      }; 
+
       static const double alpha         = 1.0/137.0359895;
       static const double PI            = 3.14159265;
 

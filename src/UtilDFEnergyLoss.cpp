@@ -22,7 +22,7 @@ namespace util_df {
       double GetStoppingPower_e(int mat,double A,double Z,double rho,double E,double M,double z){
          // Bethe-Bloch equation for electrons (Eq 32.24 in PDG book)  
          // inputs:
-         // mat => material (0, 1, 2 => He, Al, Cu)  
+         // mat => material (0, 1, 2, 3, 4 => He, Al, Cu, Glass, W)  
          // A => atomic number (g/mol)
          // Z => number of protons 
          // E => energy of incident particle (MeV)   
@@ -36,12 +36,12 @@ namespace util_df {
 	 //    // for aluminum
 	 //    I = (13.*Z)*1E-6;
 	 // }
-         double I = 28.816*sqrt( rho*Z/A )*1e-6; // MeV
+         double I     = 28.816*sqrt( rho*Z/A )*1e-6; // MeV
          double me    = 0.511;   // in MeV
          double beta_sq = 1. - M*M/(E*E);
          double beta  = sqrt(beta_sq); 
          double gamma = 1./sqrt(1.-beta_sq); 
-         double delta = GetDelta(beta*gamma,mat);
+         double delta = GetDelta(mat,beta*gamma);
          // Max energy transfer in single collision 
          double Tmax  = me*(gamma-1.)/2.; ;
          double sf    = 0.5*K*(Z/A)*( 1./(beta_sq) );
@@ -95,12 +95,13 @@ namespace util_df {
       //    return dEdx; 
       // }
       //______________________________________________________________________________
-      double GetDelta(double bg,int mat){
+      double GetDelta(int mat,double bg){
          // input: beta*gamma, material
 	 // FIXME: replace with a file read!
+         // Reference: Atomic Data and Nuclear Data Tables 30, 261 (1984)  
          bool conductor = false;
 	 double C_bar=0,a=0,x0=0,x1=0,k=0,delta0=0; 
-         if(mat==0){
+         if(mat==Constants::kHelium){
 	    // He 
 	    C_bar = 11.1393;
             a     = 0.13443;
@@ -109,7 +110,7 @@ namespace util_df {
 	    k     = 5.8347;
 	    delta0 = 0;
 	    conductor = false;
-         }else if(mat==1){
+         }else if(mat==Constants::kAluminum){
 	    // Al 
 	    C_bar = 4.2395;
             a     = 0.0824;
@@ -118,7 +119,7 @@ namespace util_df {
 	    k     = 3.6345;
 	    delta0 = 0.12;
 	    conductor = true;
-         }else if(mat==2){
+         }else if(mat==Constants::kCopper){
 	    // Cu 
 	    C_bar = 4.4190;
             a     = 0.14339;
@@ -127,7 +128,7 @@ namespace util_df {
 	    k     = 2.9044;
 	    delta0 = 0.08;
 	    conductor = true;
-         }else if(mat==3){
+         }else if(mat==Constants::kGlass){
 	    // Glass 
 	    C_bar = 4.2834;
             a     = 0.1537;
@@ -136,6 +137,15 @@ namespace util_df {
 	    k     = 3.0000;
 	    delta0 = 0.;
 	    conductor = false;
+         }else if(mat==Constants::kTungsten){
+	    // tungsten
+	    C_bar = 5.405;
+            a     = 0.15509;
+            x0    = 0.2167;
+            x1    = 3.4960;
+	    k     = 2.8447;
+	    delta0 = 0.14;
+	    conductor = true;
          } 
          double x = log10(bg); 
          double delta=0;

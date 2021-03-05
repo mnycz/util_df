@@ -15,7 +15,7 @@ namespace util_df {
       double GetRadiationLength(double A,double Z);
       double GetStoppingPower_e(material_t mat,double E); 
       double GetStoppingPower_e(int mat,double A,double Z,double rho,double E,double M,double z=1); 
-      double GetDelta(double bg,int mat); 
+      double GetDelta(int mat,double bg); 
    }
 }
 
