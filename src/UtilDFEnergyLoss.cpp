@@ -38,13 +38,12 @@ namespace util_df {
 	 //    I = (13.*Z)*1E-6;
 	 // }
          double I     = 28.816*sqrt( rho*Z/A )*1e-6; // MeV
-         // double me    = 0.511;   // in MeV
          double beta_sq = 1. - M*M/(E*E);
          double beta  = sqrt(beta_sq); 
          double gamma = 1./sqrt(1.-beta_sq); 
          double delta = GetDelta(mat,beta*gamma);
          // Max energy transfer in single collision 
-         double Tmax  = M*(gamma-1.)/2.; ;
+         double Tmax  = M*(gamma-1.)/2.; 
          double sf    = 0.5*K*(Z/A)*( 1./(beta_sq) );
          // first term
          double num   = 2.*M*beta_sq*gamma*gamma*Tmax; 
