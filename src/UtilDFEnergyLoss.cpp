@@ -12,9 +12,10 @@ namespace util_df {
       }
       //______________________________________________________________________________
       double GetStoppingPower_e(material_t mat,double E){
+         // Bethe-Bloch equation for electrons (Eq 32.24 in PDG book)  
          // N.B.: Energies in MeV, density in g/cm^2 
-         double M = Constants::electron_mass*1E+3; // in MeV
-	 double z = -1;  // sign of e- charge
+         double M    = Constants::electron_mass*1E+3; // in MeV
+	 double z    = -1;  // sign of e- charge
 	 double dEdx = GetStoppingPower_e(mat.ID,mat.A,mat.Z,mat.rho,E,M,z); 
 	 return dEdx;  // in MeV/g/cm^2  
       }
@@ -22,31 +23,31 @@ namespace util_df {
       double GetStoppingPower_e(int mat,double A,double Z,double rho,double E,double M,double z){
          // Bethe-Bloch equation for electrons (Eq 32.24 in PDG book)  
          // inputs:
-         // mat => material (0, 1, 2, 3, 4 => He, Al, Cu, Glass, W)  
-         // A => atomic number (g/mol)
-         // Z => number of protons 
-         // E => energy of incident particle (MeV)   
-         // M => incident particle mass (MeV)
-         // z => incident particle charge (+/- 1)
+         // - mat => material index (see GetDelta function)  
+         // - A => atomic number (g/mol)
+         // - Z => number of protons 
+         // - E => energy of incident particle (MeV)   
+         // - M => incident particle mass (MeV)
+         // - z => incident particle charge (+/- 1)
          // output: 
-	 // stopping power in MeV/g/cm^2 
-	 double K     = 0.307075;  // MeV mol^-1 cm^2 
+	 // - stopping power in MeV/g/cm^2 
+	 double K = 0.307075;  // MeV mol^-1 cm^2 
          // double I     = (15.*Z)*1E-6;      // FIXME THIS IS AN ESTIMATE FOR Z < 10! NB: eV scale => ~1E-6 MeV! 
          // if(Z>12){
 	 //    // for aluminum
 	 //    I = (13.*Z)*1E-6;
 	 // }
          double I     = 28.816*sqrt( rho*Z/A )*1e-6; // MeV
-         double me    = 0.511;   // in MeV
+         // double me    = 0.511;   // in MeV
          double beta_sq = 1. - M*M/(E*E);
          double beta  = sqrt(beta_sq); 
          double gamma = 1./sqrt(1.-beta_sq); 
          double delta = GetDelta(mat,beta*gamma);
          // Max energy transfer in single collision 
-         double Tmax  = me*(gamma-1.)/2.; ;
+         double Tmax  = M*(gamma-1.)/2.; ;
          double sf    = 0.5*K*(Z/A)*( 1./(beta_sq) );
          // first term
-         double num   = 2.*me*beta_sq*gamma*gamma*Tmax; 
+         double num   = 2.*M*beta_sq*gamma*gamma*Tmax; 
          double den   = I*I; 
          double T1    = log(num/den);
          // second term
@@ -60,40 +61,6 @@ namespace util_df {
          double dEdx  = sf*(T1+T2+T3+T4+T5); 
 	 return dEdx; 
       }
-      // //______________________________________________________________________________
-      // double GetStoppingPower(double A,double Z,double E,double M,double z){
-      //    // Bethe-Bloch equation
-      //    // inputs:
-      //    // A => atomic number (g/mol)
-      //    // Z => number of protons 
-      //    // E => energy of incident particle (MeV)   
-      //    // M => incident particle mass (MeV)
-      //    // z => incident particle charge (+/- 1) 
-      //    // output: 
-      //    // stopping power in MeV/g/cm^2 
-      //    double K     = 0.307075;  // MeV mol^-1 cm^2 
-      //    double I     = 1.;      // NB: eV scale => ~1E-6 MeV! 
-      //    double me    = 0.511;   // in MeV
-      //    double beta_sq = 1. - M*M/(E*E);
-      //    double gamma = 1./sqrt(1.-beta_sq); 
-      //    double delta = GetDelta(p,M);
-      //    // Max energy transfer in single collision 
-      //    double Tmax_num = 2.*me*beta_sq*gamma*gamma; 
-      //    double Tmax_den = 1. + 2.*gamma*me/M + pow(me/M,2.);
-      //    double Tmax  = 0;
-      //    if(Tmax_den!=0) Tmax = Tmax_num/Tmax_den; 
-      //    double sf    = K*z*z*(Z/A)*( 1./(beta_sq) );
-      //    // first term
-      //    double num   = 2.*me_c2*beta_sq*gamma*gamma*Tmax; 
-      //    double den   = I*I; 
-      //    double T1    = 0.5*log(num/den);
-      //    // second term
-      //    double T2    = (-1.)*beta_sq; 
-      //    // third term 
-      //    double T3    = (-1.)*delta/2.; 
-      //    double dEdx  = sf*(T1+T2+T3); 
-      //    return dEdx; 
-      // }
       //______________________________________________________________________________
       double GetDelta(int mat,double bg){
          // input: beta*gamma, material
