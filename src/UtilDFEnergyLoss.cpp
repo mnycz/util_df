@@ -5,11 +5,84 @@ namespace util_df {
       //______________________________________________________________________________
       double GetRadiationLength(double A,double Z){
 	 // radiation length in g/cm^2 
-         double T0 = 1433.; 
-         double T1 = A/( Z*(Z+1.)*(11.319 - log(Z) ) ); 
+	 double T0 = 1433.; 
+	 double T1 = A/( Z*(Z+1.)*(11.319 - log(Z) ) ); 
 	 double X0 = T0*T1;
 	 return X0;
       }
+      //___________________________________________________________________________________
+      double GetBremss_Loss_Inexact_rndm(const double E,const double bt){
+	 // Inexact form for Bremsstrahlung energy loss
+         double r  = ((double)rand()/RAND_MAX); 
+         double dE = E*pow(r,1./bt);
+	 return dE; 
+      }
+      //___________________________________________________________________________________
+      double GetBremss_Loss_Inexact_pdf(const double dE,const double E,const double bt){
+	 // Inexact form for Bremsstrahlung energy loss
+         double x = dE/E;
+         double f = bt*pow(x,bt-1.);
+	 return f; 
+      }
+      //___________________________________________________________________________________
+      double GetBremss_Loss_Exact_pdf(const double dE,const double E,const double bt){
+	 // Exact form for Bremsstrahlung energy loss (probability density function) 
+         // input: E = incident particle energy; bt = b*t, b = kinematic constant, t = material thickness (#X0)  
+         double x = dE/E; 
+	 double f = (bt/E)*(1. + 0.5772*bt)*pow(x,bt-1.)*(1. - x + (3./4.)*x*x); 
+	 return f; 
+      }
+      //___________________________________________________________________________________
+      double GetBremss_Loss_Exact_rndm(const double E,const double bt){
+	 // Exact form for Bremsstrahlung energy loss
+         // - input: E = incident particle energy; bt = b*t, b = kinematic constant, t = material thickness (#X0) 
+         // - output: energy loss in units equivalent to E's units   
+	 // Description 
+         // - uses the accept/reject method to sample the real distribution 
+	 // - exact function:      f(x) = (bt/E)*(1 + 0.5772*bt)*x^{bt-1}*(1 - x + (3/4)*x*x), x = (Delta E)/E 
+	 // - test function:       g(x) = bt*x^{bt-1}                                                                 
+	 // - comparison function: h(x) = f(x)/g(x)
+	 // - maximum of h:        c    = (1/E)*(1 + 0.5772*bt)*(7/4); factor of 7/4 arises from looking at h(x) for x = 1 
+	 // - MC function:         H(x) = h(x)/c = 1 - x + (3/4)*x*x 
+	 // For more details, see functions (below):
+	 // - bremss_getRndmNumG, bremss_getH 
+	 // - Approximate time accumulated due to do-while loop: ~1.751E-04 sec
+
+	 double X=0,U=0,H=0;
+	 do{
+	    X = bremss_getRndmNumG(bt);     // random variable X according to g(x) on [0,1]  
+            U = ((double)rand()/RAND_MAX);  // random variable according to uniform distribution on [0,1] 
+	    H = bremss_getH(X);
+	 }while(U>H);
+
+	 // we found the random variable X, distributed according to the exact function 
+	 // on 0 < X < 1.  Now, since it's equal to (Delta E)/E, we multiply by the 
+	 // energy E
+	 double result = E*X;
+	 return result;
+      }
+      //___________________________________________________________________________________
+      double bremss_getRndmNumG(const double bt){
+	 // random number distributed according to the test function
+	 // g(x) = bt*x^{bt-1} 
+         double r = ((double)rand()/RAND_MAX); 
+	 double f = pow(r,1./bt);
+	 return f;
+      }
+      //___________________________________________________________________________________
+      double bremss_getH(const double x){
+	 // ratio of exact function to test function, scaled by the maximum value 
+         // maximum occurs for x = 1 => factor of 4/7 shows up here 
+	 double h = (1. - x + (3./4.)*x*x)*(4./7.);
+	 // double h = (1. - x + (3./4.)*x*x);
+	 return h;
+      }
+      //___________________________________________________________________________________
+      double bremss_geth(const double x,const double E,const double bt){
+         // h(x,E,bt) = f(x,E,bt)/g(x) 
+         double h = (1./E)*(1. + 0.5772*bt)*(1. - x + (3./4.)*x*x);
+	 return h;
+      } 
       //______________________________________________________________________________
       double GetStoppingPower_e(material_t mat,double E){
          // Bethe-Bloch equation for electrons (Eq 32.24 in PDG book)  
