@@ -85,28 +85,31 @@ namespace util_df{
 	 return g;
       }
       //______________________________________________________________________________
-      void SetGraphParameters(TGraph *g,int Marker,int Color,int width){
-	 g->SetMarkerStyle(Marker);
-	 g->SetMarkerColor(Color);
-	 g->SetLineColor(Color);
+      void SetParameters(TGraph *g,int marker,int color,double mSize,int width){
+	 g->SetMarkerStyle(marker);
+	 g->SetMarkerColor(color);
+         g->SetMarkerSize(mSize);
+	 g->SetLineColor(color);
 	 g->SetLineWidth(width);
       }
       //______________________________________________________________________________
-      void SetGraphParameters(TGraphErrors *g,int Marker,int Color,int width){
-	 g->SetMarkerStyle(Marker);
-	 g->SetMarkerColor(Color);
-	 g->SetLineColor(Color);
+      void SetParameters(TGraphErrors *g,int marker,int color,double mSize,int width){
+	 g->SetMarkerStyle(marker);
+	 g->SetMarkerColor(color);
+         g->SetMarkerSize(mSize);
+	 g->SetLineColor(color);
 	 g->SetLineWidth(width);
       }
       //______________________________________________________________________________
-      void SetGraphParameters(TGraphAsymmErrors *g,int Marker,int Color,int width){
-	 g->SetMarkerStyle(Marker);
-	 g->SetMarkerColor(Color);
-	 g->SetLineColor(Color);
+      void SetParameters(TGraphAsymmErrors *g,int marker,int color,double mSize,int width){
+	 g->SetMarkerStyle(marker);
+	 g->SetMarkerColor(color);
+         g->SetMarkerSize(mSize);
+	 g->SetLineColor(color);
 	 g->SetLineWidth(width);
       }
       //______________________________________________________________________________
-      void SetGraphLabels(TGraph *g,TString Title,TString xAxisTitle,TString yAxisTitle){
+      void SetLabels(TGraph *g,TString Title,TString xAxisTitle,TString yAxisTitle){
 	 g->SetTitle(Title);
 	 g->GetXaxis()->SetTitle(xAxisTitle);
 	 g->GetXaxis()->CenterTitle();
@@ -114,7 +117,7 @@ namespace util_df{
 	 g->GetYaxis()->CenterTitle();
       }
       //______________________________________________________________________________
-      void SetGraphLabels(TGraphErrors *g,TString Title,TString xAxisTitle,TString yAxisTitle){
+      void SetLabels(TGraphErrors *g,TString Title,TString xAxisTitle,TString yAxisTitle){
 	 g->SetTitle(Title);
 	 g->GetXaxis()->SetTitle(xAxisTitle);
 	 g->GetXaxis()->CenterTitle();
@@ -122,7 +125,7 @@ namespace util_df{
 	 g->GetYaxis()->CenterTitle();
       }
       //______________________________________________________________________________
-      void SetGraphLabels(TGraphAsymmErrors *g,TString Title,TString xAxisTitle,TString yAxisTitle){
+      void SetLabels(TGraphAsymmErrors *g,TString Title,TString xAxisTitle,TString yAxisTitle){
 	 g->SetTitle(Title);
 	 g->GetXaxis()->SetTitle(xAxisTitle);
 	 g->GetXaxis()->CenterTitle();
@@ -130,7 +133,7 @@ namespace util_df{
 	 g->GetYaxis()->CenterTitle();
       }
       //______________________________________________________________________________
-      void SetGraphLabels(TMultiGraph *g,TString Title,TString xAxisTitle,TString yAxisTitle){
+      void SetLabels(TMultiGraph *g,TString Title,TString xAxisTitle,TString yAxisTitle){
 	 g->SetTitle(Title);
 	 g->GetXaxis()->SetTitle(xAxisTitle);
 	 g->GetXaxis()->CenterTitle();
@@ -138,7 +141,7 @@ namespace util_df{
 	 g->GetYaxis()->CenterTitle();
       }
       //______________________________________________________________________________
-      void SetGraphLabelSizes(TGraph *g,double xSize,double ySize,double offset){
+      void SetLabelSizes(TGraph *g,double xSize,double ySize,double offset){
 	 g->GetXaxis()->SetTitleSize(xSize);
 	 g->GetXaxis()->SetLabelSize(xSize);
 	 g->GetYaxis()->SetTitleSize(ySize);
@@ -146,7 +149,7 @@ namespace util_df{
 	 g->GetYaxis()->SetTitleOffset(offset);
       }
       //______________________________________________________________________________
-      void SetGraphLabelSizes(TGraphErrors *g,double xSize,double ySize,double offset){
+      void SetLabelSizes(TGraphErrors *g,double xSize,double ySize,double offset){
 	 g->GetXaxis()->SetTitleSize(xSize);
 	 g->GetXaxis()->SetLabelSize(xSize);
 	 g->GetYaxis()->SetTitleSize(ySize);
@@ -154,7 +157,7 @@ namespace util_df{
 	 g->GetYaxis()->SetTitleOffset(offset);
       }
       //______________________________________________________________________________
-      void SetGraphLabelSizes(TGraphAsymmErrors *g,double xSize,double ySize,double offset){
+      void SetLabelSizes(TGraphAsymmErrors *g,double xSize,double ySize,double offset){
 	 g->GetXaxis()->SetTitleSize(xSize);
 	 g->GetXaxis()->SetLabelSize(xSize);
 	 g->GetYaxis()->SetTitleSize(ySize);
@@ -162,7 +165,7 @@ namespace util_df{
 	 g->GetYaxis()->SetTitleOffset(offset);
       }
       //______________________________________________________________________________
-      void SetGraphLabelSizes(TMultiGraph *g,double xSize,double ySize,double offset){
+      void SetLabelSizes(TMultiGraph *g,double xSize,double ySize,double offset){
 	 g->GetXaxis()->SetTitleSize(xSize);
 	 g->GetXaxis()->SetLabelSize(xSize);
 	 g->GetYaxis()->SetTitleSize(ySize);

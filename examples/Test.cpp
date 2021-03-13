@@ -41,13 +41,13 @@ int Test(){
  
    // create graphs    
    TGraph *g = util_df::Graph::GetTGraph(x,y); 
-   util_df::Graph::SetGraphParameters(g,20,kBlue);
+   util_df::Graph::SetParameters(g,20,kBlue);
 
    TCanvas *c1 = new TCanvas("c1","Data",500,500);
 
    c1->cd();
    g->Draw("ap");
-   util_df::Graph::SetGraphLabels(g,"Test Data",xAxisLabel,yAxisLabel);
+   util_df::Graph::SetLabels(g,"Test Data",xAxisLabel,yAxisLabel);
    g->Draw("ap");
    c1->Update();
 

@@ -19,7 +19,24 @@ namespace util_df {
       enum statsType {
 	 kBesselsCorrectionDisabled = 0,
 	 kBesselsCorrectionEnabled  = 1 
+      };
+
+      enum materialName{
+	 kHelium,
+	 kAluminum,
+	 kCopper,
+	 kTungsten,
+	 kGlass
       }; 
+
+      static const double alpha         = 1.0/137.0359895;
+      static const double PI            = 3.14159265;
+
+      static const double radian        = 1.; 
+      static const double deg           = 0.017453293; // 1 deg = pi/180 radians 
+      static const double electron_mass = 0.511E-3;    // GeV 
+      static const double proton_mass   = 0.9383;      // GeV 
+      static const double pion_mass     = 0.140;       // GeV
 
    } //::constants 
 

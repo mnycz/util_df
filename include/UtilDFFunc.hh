@@ -21,6 +21,7 @@ namespace util_df{
    unsigned long int GetUTCTimeStampFromString(std::string timeStamp,bool isDST=false);
    int MakeDirectory(const char *path); 
    int SplitString(const char delim,const std::string myStr,std::vector<std::string> &out);
+   int SplitString_whiteSpace(const std::string myStr,std::vector<std::string> &out); 
    int MakeClass(const char *path,const char *className,const char *treeName="T");  
 } // ::util_df
 

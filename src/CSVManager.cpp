@@ -2,11 +2,12 @@
 //______________________________________________________________________________
 namespace util_df { 
    //______________________________________________________________________________
-   CSVManager::CSVManager(int v){
+   CSVManager::CSVManager(int v,const char *delim){
       fHeaderExists = false;
-      fNumCol = 0; 
-      fNumRow = 0; 
-      fVerbosity = v;
+      fNumCol       = 0; 
+      fNumRow       = 0; 
+      fVerbosity    = v;
+      fDelimiter    = delim;
    }
    //______________________________________________________________________________
    CSVManager::~CSVManager(){
@@ -58,122 +59,13 @@ namespace util_df {
       return 0;
    }
    //______________________________________________________________________________
-   int CSVManager::PrintHeader(){
-      std::cout << "[CSVManager::PrintHeader]: Header data: " << std::endl;
-      const int N = fHeader.size();
-      for(int i=0;i<N;i++) std::cout << fHeader[i] << std::endl;
+   int CSVManager::SplitString_whiteSpace(const std::string myStr,std::vector<std::string> &out){
+      // split string on white space 
+      std::istringstream buffer(myStr);
+      std::copy(std::istream_iterator<std::string>(buffer),
+            std::istream_iterator<std::string>(),
+            std::back_inserter(out));
       return 0;
-   }
-   //______________________________________________________________________________
-   int CSVManager::Print(){
-      // print to screen
-      int NROW = fData.size();
-      int NCOL = fHeader.size();
-
-      char myStr[200];
-      if(fHeaderExists){ 
-	 sprintf(myStr,"%s",fHeader[0].c_str() );
-	 for(int i=1;i<NCOL;i++) sprintf(myStr,"%s,%s",myStr,fHeader[i].c_str() );
-	 std::cout << myStr << std::endl;
-      }
-
-      for(int i=0;i<NROW;i++){
-	 sprintf(myStr,"%s",fData[i][0].c_str()); 
-	 NCOL = fData[i].size();
-	 for(int j=1;j<NCOL;j++) sprintf(myStr,"%s,%s",myStr,fData[i][j].c_str() );
-	 std::cout << myStr << std::endl;
-      }
-      return 0;
-   }
-   //______________________________________________________________________________
-   int CSVManager::WriteFile(const char *outpath){
-      // write the data to a file
-      int NROW = fData.size(); 
-      int NCOL = fData[0].size();
-      char line[2048]; 
-      std::ofstream outfile;
-      outfile.open(outpath); 
-      if( outfile.fail() ){
-	 std::cout << "[CSVManager::WriteFile]: Cannot open the file: " << outpath << std::endl;
-	 return 1;
-      }else{
-	 if(fHeaderExists){ 
-	    // print header if necessary  
-	    sprintf(line,"%s",fHeader[0].c_str() );
-	    for(int i=1;i<NCOL;i++) sprintf(line,"%s,%s",line,fHeader[i].c_str() );
-	    outfile << line << std::endl;
-	 }
-	 // print data
-	 for(int i=0;i<NROW;i++){
-	    sprintf(line,"%s",fData[i][0].c_str()); 
-	    NCOL = fData[i].size();
-	    for(int j=1;j<NCOL;j++) sprintf(line,"%s,%s",line,fData[i][j].c_str() );
-	    outfile << line << std::endl;
-	 }
-      }
-      return 0;
-   }
-   //______________________________________________________________________________
-   int CSVManager::ReadFile(const char *inpath,bool headerExists){
-
-      // update variable 
-      fHeaderExists = headerExists;
-
-      std::string aLine;
-      std::vector<std::string> line;
-
-      std::ifstream infile;
-      infile.open(inpath);
-
-      if( infile.fail() ){
-	 std::cout << "[CSVManager::ReadFile]: Cannot open the file: " << inpath << std::endl;
-	 return 1;
-      }else{
-	 if(fVerbosity>0) std::cout << "[CSVManager::ReadFile]: Opened the file: " << inpath << std::endl;
-	 while( !infile.eof() ){
-	    std::getline(infile,aLine);
-	    line.push_back(aLine); 
-	 }
-	 line.pop_back();
-	 infile.close();
-      }
-
-      int NROW = line.size();
-      std::vector<std::string> col;
-
-      // now parse the data
-      int rc=0,k=0,NCOL=0; 
-      for(int i=0;i<NROW;i++){
-	 // split the line into a vector.  This is a single row 
-	 rc   = SplitString(',',line[i],col);
-	 // get number of columns 
-	 NCOL = col.size();
-	 if(i==0 && fHeaderExists){
-	    // this is the header
-	    for(int j=0;j<NCOL;j++) fHeader.push_back(col[j]);  
-	 }else{
-	    // not the header, fill the data 
-	    fData.push_back(col);
-	 } 
-	 // clean up
-	 col.clear(); 
-      }
-
-      NROW    = fData.size();
-      fNumCol = fHeader.size(); 
-      fNumRow = NROW; 
-
-      // column check
-      if(NCOL!=fNumCol && fHeaderExists){
-	 std::cout << "[CSVManager::ReadFile]: ERROR!  Number of headers doesn't match number of columns!" << std::endl;
-      }
-
-      char msg[200];
-      if(fHeaderExists)  sprintf(msg,"[CSVManager::ReadFile]: Found header, %d rows, %d columns"   ,NROW,NCOL);
-      if(!fHeaderExists) sprintf(msg,"[CSVManager::ReadFile]: Found NO header, %d rows, %d columns",NROW,NCOL);
-      if(fVerbosity>0) std::cout << msg << std::endl;
-
-      return 0; 
    }
    //______________________________________________________________________________
    std::string CSVManager::GetElement_str(int rowIndex,int colIndex){
@@ -269,6 +161,34 @@ namespace util_df {
       return k;
    }
    //______________________________________________________________________________
+   int CSVManager::PrintHeader(){
+      std::cout << "[CSVManager::PrintHeader]: Header data: " << std::endl;
+      const int N = fHeader.size();
+      for(int i=0;i<N;i++) std::cout << fHeader[i] << std::endl;
+      return 0;
+   }
+   //______________________________________________________________________________
+   int CSVManager::Print(){
+      // print to screen
+      int NROW = fData.size();
+      int NCOL = fHeader.size();
+
+      char myStr[200];
+      if(fHeaderExists){ 
+	 sprintf(myStr,"%s",fHeader[0].c_str() );
+	 for(int i=1;i<NCOL;i++) sprintf(myStr,"%s,%s",myStr,fHeader[i].c_str() );
+	 std::cout << myStr << std::endl;
+      }
+
+      for(int i=0;i<NROW;i++){
+	 sprintf(myStr,"%s",fData[i][0].c_str()); 
+	 NCOL = fData[i].size();
+	 for(int j=1;j<NCOL;j++) sprintf(myStr,"%s,%s",myStr,fData[i][j].c_str() );
+	 std::cout << myStr << std::endl;
+      }
+      return 0;
+   }
+   //______________________________________________________________________________
    int CSVManager::PrintColumns(std::string cols){
 
       std::vector<std::string> colName;
@@ -324,5 +244,113 @@ namespace util_df {
 
       return 0;
    }
+   //______________________________________________________________________________
+   int CSVManager::WriteFile(const char *outpath){
+      // write the data to a file
+      int NROW = fData.size(); 
+      int NCOL = fData[0].size();
+      char line[2048]; 
+      std::ofstream outfile;
+      outfile.open(outpath); 
+      if( outfile.fail() ){
+	 std::cout << "[CSVManager::WriteFile]: Cannot open the file: " << outpath << std::endl;
+	 return 1;
+      }else{
+	 if(fHeaderExists){ 
+	    // print header if necessary  
+	    sprintf(line,"%s",fHeader[0].c_str() );
+	    for(int i=1;i<NCOL;i++) sprintf(line,"%s,%s",line,fHeader[i].c_str() );
+	    outfile << line << std::endl;
+	 }
+	 // print data
+	 for(int i=0;i<NROW;i++){
+	    sprintf(line,"%s",fData[i][0].c_str()); 
+	    NCOL = fData[i].size();
+	    for(int j=1;j<NCOL;j++) sprintf(line,"%s,%s",line,fData[i][j].c_str() );
+	    outfile << line << std::endl;
+	 }
+      }
+      return 0;
+   }
+   //______________________________________________________________________________
+   int CSVManager::ReadFile(const char *inpath,bool headerExists){
+      // update variable 
+      fHeaderExists = headerExists;
 
-}
+      std::string aLine;
+      std::vector<std::string> line;
+
+      std::ifstream infile;
+      infile.open(inpath);
+
+      if( infile.fail() ){
+	 std::cout << "[CSVManager::ReadFile]: Cannot open the file: " << inpath << std::endl;
+	 return 1;
+      }else{
+	 if(fVerbosity>0) std::cout << "[CSVManager::ReadFile]: Opened the file: " << inpath << std::endl;
+	 while( !infile.eof() ){
+	    std::getline(infile,aLine);
+	    if(fVerbosity>1) std::cout << aLine << std::endl;
+	    line.push_back(aLine); 
+	 }
+	 line.pop_back();
+	 infile.close();
+      }
+
+      int NROW = line.size();
+      std::vector<std::string> col;
+
+      // now parse the data
+      int rc=0,k=0,NCOL=0; 
+      for(int i=0;i<NROW;i++){
+	 // split the line into a vector.  This is a single row 
+         if(fDelimiter.compare("csv")==0){ 
+	    rc = SplitString(',',line[i],col);
+         }else if(fDelimiter.compare("tsv")==0){
+	    rc = SplitString_whiteSpace(line[i],col);
+	 }
+	 // get number of columns 
+	 NCOL = col.size();
+	 if(i==0 && fHeaderExists){
+	    // this is the header
+	    for(int j=0;j<NCOL;j++) fHeader.push_back(col[j]);  
+	 }else{
+	    // not the header, fill the data 
+	    fData.push_back(col);
+	 } 
+	 // clean up
+	 col.clear(); 
+      }
+
+      // remove hashtag if necessary
+      int NVS=0;
+      std::string firstEntry=""; 
+      std::vector<std::string> vStr; 
+      if(fDelimiter.compare("tsv")==0 && fHeaderExists){
+	 // first entry is the #, so just delete it 
+         if(fHeader[0].compare("#")==0) fHeader.erase( fHeader.begin() );
+      }else if(fDelimiter.compare("csv")==0 && fHeaderExists){
+         firstEntry = fHeader[0];
+         SplitString('#',firstEntry,vStr);
+	 // replace first entry with characters aside from leading # (if found) 
+	 NVS = vStr.size(); 
+         if(NVS>1) fHeader[0] = vStr[1];   
+      }
+
+      NROW    = fData.size();
+      fNumCol = fHeader.size(); 
+      fNumRow = NROW; 
+
+      // column check
+      if(NCOL!=fNumCol && fHeaderExists){
+	 std::cout << "[CSVManager::ReadFile]: ERROR!  Number of headers doesn't match number of columns!" << std::endl;
+      }
+
+      char msg[200];
+      if(fHeaderExists)  sprintf(msg,"[CSVManager::ReadFile]: Found header, %d rows, %d columns"   ,NROW,NCOL);
+      if(!fHeaderExists) sprintf(msg,"[CSVManager::ReadFile]: Found NO header, %d rows, %d columns",NROW,NCOL);
+      if(fVerbosity>0) std::cout << msg << std::endl;
+
+      return 0; 
+   }
+} // ::util_df

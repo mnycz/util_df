@@ -14,6 +14,20 @@ namespace util_df {
 	 return sum;
       }
       //______________________________________________________________________________
+      double GetIntegral(TH1F *h){
+	 // Compute area under the curve of a histogram between min and max
+	 int bmin = 1;              // bin 1 is first bin; bin 0 is overflow 
+	 int bmax = h->GetNbinsX(); // max bin 
+	 // now accumulate counts for bins between min and max
+	 double cnt=0,bw=0,sum=0;
+	 for(int i=bmin;i<=bmax;i++){
+	    bw   = h->GetBinWidth(i);
+	    cnt  = h->GetBinContent(i);
+	    sum += bw*cnt;
+	 }
+	 return sum;
+      }
+      //______________________________________________________________________________
       double GetIntegral(TH1F *h,double min,double max){
 	 // Compute area under the curve of a histogram between min and max
 	 // first find bin numbers corresponding to our range 
@@ -106,16 +120,18 @@ namespace util_df {
 	 h->GetYaxis()->CenterTitle(); 
       }
       //______________________________________________________________________________
-      void SetParameters(TH1F *h,int color,int mStyle,double mSize){
+      void SetParameters(TH1F *h,int mStyle,int color,double mSize,int lWidth){
 	 h->SetMarkerColor(color); 
 	 h->SetLineColor(color);
+	 h->SetLineWidth(lWidth); 
          h->SetMarkerStyle(mStyle);  
          h->SetMarkerSize(mSize);  
       }
       //______________________________________________________________________________
-      void SetParameters(TH2F *h,int color,int mStyle,double mSize){
+      void SetParameters(TH2F *h,int mStyle,int color,double mSize,int lWidth){
 	 h->SetMarkerColor(color); 
 	 h->SetLineColor(color);
+	 h->SetLineWidth(lWidth); 
          h->SetMarkerStyle(mStyle);  
          h->SetMarkerSize(mSize);  
       }

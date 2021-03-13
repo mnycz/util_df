@@ -18,10 +18,12 @@ namespace util_df {
          int fVerbosity; 
 	 int fNumRow,fNumCol;
 	 bool fHeaderExists;
+	 std::string fDelimiter; 
 	 std::vector<std::string> fHeader;
 	 std::vector< std::vector<std::string> > fData;
 
 	 int SplitString(const char delim,const std::string inStr,std::vector<std::string> &out);
+	 int SplitString_whiteSpace(const std::string myStr,std::vector<std::string> &out); 
 
 	 template <typename T>
 	    int CheckType(T data){
@@ -41,7 +43,7 @@ namespace util_df {
 	    } 
 
       public:
-	 CSVManager(int v=0);
+	 CSVManager(int v=0,const char *delim="csv");
 	 ~CSVManager();
 
 	 int Print();
@@ -57,7 +59,12 @@ namespace util_df {
          void SetVerbosity(int v) {fVerbosity = v;}  
 	 int SetHeader(std::string fullHeader);  
 	 int SetHeader(std::vector<std::string> header);  
-	 int SetElement_str(int row,int col,std::string x); 
+	 int SetElement_str(int row,int col,std::string x);
+         int SetColumn_str(int col,std::vector<std::string> x){
+	    const int N = x.size();
+	    for(int i=0;i<N;i++) SetElement_str(i,col,x[i]);
+	    return 0; 
+         } 
  
 	 // templated setter methods 
          template <typename T>
@@ -78,6 +85,13 @@ namespace util_df {
                }
 	       return 0;
 	    }
+
+	 template <typename T> 
+	    int SetColumn(int col,std::vector<T> x){
+               const int N = x.size();
+	       for(int i=0;i<N;i++) SetElement<T>(i,col,x[i]);
+	       return 0;
+	    } 
 
 	 // getter methods
 	 int GetNumRows()    const { return fNumRow;    } 
