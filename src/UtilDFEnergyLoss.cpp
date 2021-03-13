@@ -25,7 +25,7 @@ namespace util_df {
          // - A   = molecular mass [g/mol] 
          // - Z   = atomic number 
          // - rho = material density [g/cm^3] 
-         // - x   = material thickness [cm]
+         // - x   = material thickness [g/cm^2]
          // - E   = incident particle energy [MeV] 
          // output 
          // - (differential) energy loss in MeV 
