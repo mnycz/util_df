@@ -11,6 +11,60 @@ namespace util_df {
 	 return X0;
       }
       //___________________________________________________________________________________
+      double GetIon_Loss_Landau(material_t mat,const double E,bool isRndm){
+	 // simplified version using the material data struct
+         return GetIon_Loss_Landau(mat.ID,mat.A,mat.Z,mat.rho,mat.length,E,isRndm); 
+      }
+      //___________________________________________________________________________________
+      double GetIon_Loss_Landau(int mat,const double A,const double Z,const double rho,
+                                const double x,double E,bool isRndm){
+	 // Ionization loss as described for detectors of moderate thickness
+	 // Follows a highly-skewed Landau distribution.  PDG Eqn 32.11
+         // input
+         // - mat = material ID (see GetDelta for ID code)
+         // - A   = molecular mass [g/mol] 
+         // - Z   = atomic number 
+         // - rho = material density [g/cm^3] 
+         // - x   = material thickness [cm]
+         // - E   = incident particle energy [MeV] 
+         // output 
+         // - (differential) energy loss in MeV 
+	 double K       = 0.307075;  // MeV mol^-1 cm^2 
+         double I       = 28.816*sqrt( rho*Z/A )*1e-6;   // MeV
+         double M       = Constants::electron_mass*1E+3; // in MeV  
+         double beta_sq = 1. - M*M/(E*E);
+         double beta    = sqrt(beta_sq); 
+         double gamma   = 1./sqrt(1.-beta_sq); 
+         double delta   = GetDelta(mat,beta*gamma);
+         double j       = 0.200;
+         double xi      = (K/2.)*(Z/A)*(x/beta_sq); 
+         // term 1 
+         double num_1   = 2.*M*beta_sq*gamma*gamma; 
+         double den_1   = I; 
+         double T1      = log(num_1/den_1); 
+         // term 2 
+         double num_2   = xi; 
+         double den_2   = I; 
+         double T2      = log(num_2/den_2); 
+         // term 3 
+         double T3      = j; 
+         // term 4 
+         double T4      = (-1.)*beta_sq; 
+         // term 5      
+         double T5      = (-1.)*delta;
+         // put it together 
+         double res     = xi*(T1+T2+T3+T4+T5);
+	 // To randomize, throw as Landau(res,xi) => xi is the width
+         TRandom3 *myRand = new TRandom3(0); // random seed 
+	 double res_rand=0; 
+         if(isRndm){
+	    res_rand = myRand->Landau(res,xi);
+	    res      = res_rand;
+         }
+	 delete myRand; 
+	 return res; 
+      } 
+      //___________________________________________________________________________________
       double GetBremss_Loss_Inexact_rndm(const double E,const double bt){
 	 // Inexact form for Bremsstrahlung energy loss
          double r  = ((double)rand()/RAND_MAX); 

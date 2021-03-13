@@ -10,9 +10,13 @@
 #include "Material.hh"
 #include "UtilDFConstants.hh" 
 
+#include "TRandom3.h"
+
 namespace util_df { 
    namespace EnergyLoss { 
       double GetRadiationLength(double A,double Z);
+      double GetIon_Loss_Landau(material_t mat,const double E,bool isRndm=false); 
+      double GetIon_Loss_Landau(int mat,const double A,const double Z,const double rho,const double x,double E,bool isRndm=false); 
       double GetBremss_Loss_Inexact_rndm(const double E,const double bt); 
       double GetBremss_Loss_Inexact_pdf(const double dE,const double E,const double bt); 
       double GetBremss_Loss_Exact_pdf(const double dE,const double E,const double bt); 
