@@ -65,7 +65,7 @@ namespace util_df {
 	       char data[200]; 
                int type = CheckType<T>(x);
                if(type==0) sprintf(data,"%d"  ,(int)x   );  
-               if(type==1) sprintf(data,"%.3E",(double)x);  
+               if(type==1) sprintf(data,"%.7E",(double)x);  
 	       std::string DATA = data;
                if(row<fNumRow && col<fNumCol){
 		  fData[row][col] = DATA; 
