@@ -273,7 +273,7 @@ namespace util_df {
       return 0;
    }
    //______________________________________________________________________________
-   int CSVManager::ReadFile(const char *inpath,bool headerExists){
+   int CSVManager::ReadFile(const char *inpath,bool headerExists,int lineSkip){
       // update variable 
       fHeaderExists = headerExists;
 
@@ -283,6 +283,8 @@ namespace util_df {
       std::ifstream infile;
       infile.open(inpath);
 
+      int l=0;
+
       if( infile.fail() ){
 	 std::cout << "[CSVManager::ReadFile]: Cannot open the file: " << inpath << std::endl;
 	 return 1;
@@ -291,7 +293,12 @@ namespace util_df {
 	 while( !infile.eof() ){
 	    std::getline(infile,aLine);
 	    if(fVerbosity>1) std::cout << aLine << std::endl;
-	    line.push_back(aLine); 
+            if(lineSkip==0){
+	       line.push_back(aLine);
+            }else if(lineSkip>0){
+	       if(l>lineSkip) line.push_back(aLine);
+            }
+	    l++; 
 	 }
 	 line.pop_back();
 	 infile.close();

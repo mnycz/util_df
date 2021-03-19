@@ -51,7 +51,7 @@ namespace util_df {
 	 int PrintColumns(std::string cols); 
 
 	 int ClearData();
-	 int ReadFile(const char *inpath,bool header=false); 
+	 int ReadFile(const char *inpath,bool header=false,int lineSkip=0); 
 	 int WriteFile(const char *outpath);
          int InitTable(int NROW,int NCOL); 
 
