@@ -51,8 +51,12 @@ include(${ROOT_USE_FILE})
 
 #----------------------------------------------------------------------------
 # Directories relevant for this project 
-include_directories(${PROJECT_SOURCE_DIR}/include ${ROOT_INCLUDE_DIR}
-    ${PROJECT_SOURCE_DIR}/src ${CMAKE_CURRENT_BINARY_DIR}/include)
+include_directories(
+${PROJECT_SOURCE_DIR}/include
+${ROOT_INCLUDE_DIR}
+${PROJECT_SOURCE_DIR}/src 
+${CMAKE_CURRENT_BINARY_DIR}/include
+)
 
 #----------------------------------------------------------------------------
 # sources and headers for the project 

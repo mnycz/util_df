@@ -29,6 +29,8 @@ namespace util_df {
 	 kGlass
       }; 
 
+      static const int FTSIZE           = 1E+7; 
+
       static const double alpha         = 1.0/137.0359895;
       static const double PI            = 3.14159265;
 
