@@ -28,7 +28,7 @@ namespace util_df {
          int GetNextPowerOfTwo(int N);
 
       public: 
-	 FourierTransform(int verbosity=0,double sampleFreq=0,double padTime=0);
+	 FourierTransform(double sampleFreq=0,double padTime=0,int verbosity=0);
 	 ~FourierTransform(); 
 
          void SetVerbosity(int v)           { fVerbosity       = v; } 

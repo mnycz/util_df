@@ -43,7 +43,7 @@ namespace util_df {
 	    } 
 
       public:
-	 CSVManager(int v=0,const char *delim="csv");
+	 CSVManager(const char *delim="csv",int verbosity=0);
 	 ~CSVManager();
 
 	 int Print();

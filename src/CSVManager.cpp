@@ -2,11 +2,11 @@
 //______________________________________________________________________________
 namespace util_df { 
    //______________________________________________________________________________
-   CSVManager::CSVManager(int v,const char *delim){
+   CSVManager::CSVManager(const char *delim,int verbosity){
       fHeaderExists = false;
       fNumCol       = 0; 
       fNumRow       = 0; 
-      fVerbosity    = v;
+      fVerbosity    = verbosity;
       fDelimiter    = delim;
    }
    //______________________________________________________________________________

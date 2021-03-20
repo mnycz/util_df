@@ -1,10 +1,10 @@
 #include "FourierTransform.hh"
 namespace util_df {
    //______________________________________________________________________________
-   FourierTransform::FourierTransform(int verbosity,double sampleFreq,double padTime){
-      fVerbosity       = verbosity; 
+   FourierTransform::FourierTransform(double sampleFreq,double padTime,int verbosity){
       fSampleFreq      = sampleFreq; 
       fZeroPaddingTime = padTime; 
+      fVerbosity       = verbosity; 
       const int N      = util_df::Constants::FTSIZE; 
       fComplex         = new double[N];
       ClearArray();  
