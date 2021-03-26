@@ -79,7 +79,8 @@ target_link_libraries (${LIB_NAME} ${ROOT_LIBRARIES})
 
 #----------------------------------------------------------------------------
 # Install items 
-install (TARGETS ${LIB_NAME} DESTINATION ${INSTALL_DIR})
+#install (TARGETS ${LIB_NAME} DESTINATION ${INSTALL_DIR})
+install (TARGETS ${LIB_NAME} DESTINATION /group/c-polhe3/Users/mnycz/mc-single-arm/XSModel/CreateXSTree/XSModel/Rad/Util/install)	
 install (FILES ${HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 # install(DIRECTORY ${PROJECT_SOURCE_DIR}/examples DESTINATION ${CMAKE_INSTALL_PREFIX})
 
